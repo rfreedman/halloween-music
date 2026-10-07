@@ -1,0 +1,14 @@
+schedule:
+  start: "17:00"   # local time, every day
+  stop: "22:00"
+playlist: "playlist.m3u"
+bluetooth:
+  device_address: "AA:BB:CC:DD:EE:FF"
+  device_name: "Patio Speaker"   # display only
+  poll_seconds: 15               # how often to check connection
+  reconnect_backoff_seconds: 30  # wait after a failed reconnect before retry
+audio:
+  volume: 70                     # 0-100, mpv volume
+web:
+  host: "0.0.0.0"
+  port: 8080

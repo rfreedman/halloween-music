@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Halloween Music</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Karla:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true"></div>
+  <main class="panel">
+    <header class="brand">
+      <h1>Halloween Music</h1>
+      <p class="tagline">Scheduled Bluetooth playback</p>
+    </header>
+
+    <section class="status-block" aria-live="polite">
+      <div class="playback">
+        <span id="play-state" class="state stopped">Stopped</span>
+        <p id="override-hint" class="override-hint" hidden></p>
+        <p id="track" class="track">—</p>
+        <p id="audio-route" class="audio-route" hidden></p>
+      </div>
+      <div class="transport">
+        <button type="button" id="btn-play" class="transport-btn">Start</button>
+        <button type="button" id="btn-stop" class="transport-btn secondary">Stop</button>
+      </div>
+    </section>
+
+    <section class="controls">
+      <form id="schedule-form" class="field-row">
+        <label>
+          Start
+          <input type="time" id="start" name="start" required>
+        </label>
+        <label>
+          Stop
+          <input type="time" id="stop" name="stop" required>
+        </label>
+        <button type="submit">Save schedule</button>
+      </form>
+
+      <label class="volume-row">
+        Volume
+        <input type="range" id="volume" min="0" max="100" step="1">
+        <span id="volume-value">70</span>
+      </label>
+
+      <div class="bt-block">
+        <div class="bt-status">
+          <span id="bt-indicator" class="dot off" aria-hidden="true"></span>
+          <div>
+            <strong id="bt-name">Speaker</strong>
+            <p id="bt-state">Checking Bluetooth…</p>
+            <p id="bt-error" class="error" hidden></p>
+          </div>
+        </div>
+        <form id="bt-form" class="field-row">
+          <label class="grow">
+            Bluetooth address
+            <input type="text" id="bt-address" name="device_address"
+                   placeholder="AA:BB:CC:DD:EE:FF" pattern="([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}" required>
+          </label>
+          <button type="submit">Save address</button>
+        </form>
+        <button type="button" id="bt-reconnect" class="secondary">Reconnect</button>
+      </div>
+    </section>
+
+    <p id="flash" class="flash" hidden></p>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

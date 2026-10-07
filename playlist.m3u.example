@@ -1,0 +1,5 @@
+#EXTM3U
+# Put paths to audio files below (relative to this playlist or absolute).
+#EXTINF:-1,Example Track
+music/spooky-theme.mp3
+music/monster-mash.mp3

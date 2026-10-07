@@ -1,0 +1,12 @@
+---
+description: Store all project plans in .cursor/plans/
+alwaysApply: true
+---
+
+# Project plans location
+
+When creating or updating plans for this project:
+
+- Put plan files in [`.cursor/plans/`](.cursor/plans/) (e.g. `.cursor/plans/feature-name.plan.md`).
+- Do not write new plans to `~/.cursor/plans/` for this project.
+- If a plan was created elsewhere, move it into `.cursor/plans/` and continue editing it there.

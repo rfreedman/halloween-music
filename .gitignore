@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.Python
+config.yaml.tmp
+.DS_Store
+.idea/
+*.sock
+music

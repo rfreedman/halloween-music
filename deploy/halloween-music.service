@@ -1,0 +1,16 @@
+[Unit]
+Description=Halloween Music Player
+After=network.target bluetooth.target sound.target
+Wants=bluetooth.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/halloween-music
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/pi/halloween-music/.venv/bin/python /home/pi/halloween-music/main.py --config /home/pi/halloween-music/config.yaml
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
