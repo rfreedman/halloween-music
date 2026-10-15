@@ -100,4 +100,5 @@ sudo systemctl status halloween-music.service
 - `POST /api/volume` — `{ "volume": 70 }`
 - `POST /api/play` — manual start (overrides schedule until the next start/stop boundary)
 - `POST /api/stop` — manual stop (overrides schedule until the next start/stop boundary)
+- `POST /api/skip` — advance to the next playlist track (only while playing)
 - `POST /api/bluetooth/reconnect`

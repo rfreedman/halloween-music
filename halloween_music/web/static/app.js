@@ -13,6 +13,7 @@
   const btError = document.getElementById("bt-error");
   const btAddress = document.getElementById("bt-address");
   const flash = document.getElementById("flash");
+  const btnNext = document.getElementById("btn-next");
 
   let volumeTimer = null;
   let editingSchedule = false;
@@ -44,6 +45,7 @@
     playState.textContent = data.playing ? "Playing" : "Stopped";
     playState.className = "state " + (data.playing ? "playing" : "stopped");
     trackEl.textContent = data.track || (data.playing ? "Unknown track" : "—");
+    btnNext.disabled = !data.playing;
 
     if (data.override === "play") {
       overrideHint.hidden = false;
@@ -116,6 +118,7 @@
       playState.textContent = "Offline";
       playState.className = "state stopped";
       trackEl.textContent = err.message;
+      btnNext.disabled = true;
     }
   }
 
@@ -193,6 +196,20 @@
       await refresh();
     } catch (err) {
       showFlash(err.message, false);
+    }
+  });
+
+  btnNext.addEventListener("click", async () => {
+    try {
+      const data = await api("/api/skip", { method: "POST", body: "{}" });
+      if (data.track) {
+        trackEl.textContent = data.track;
+      }
+      showFlash("Skipped to next song", true);
+      await refresh();
+    } catch (err) {
+      showFlash(err.message, false);
+      await refresh();
     }
   });
 

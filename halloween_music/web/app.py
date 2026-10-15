@@ -66,6 +66,20 @@ def create_app(
         scheduler.manual_stop()
         return jsonify({"ok": True, "playing": player.is_playing})
 
+    @app.post("/api/skip")
+    def skip_track():
+        try:
+            player.skip_next()
+        except RuntimeError as exc:
+            return jsonify({"ok": False, "error": str(exc)}), 409
+        return jsonify(
+            {
+                "ok": True,
+                "playing": player.is_playing,
+                "track": player.current_track(),
+            }
+        )
+
     @app.post("/api/schedule")
     def update_schedule():
         data = request.get_json(silent=True) or {}

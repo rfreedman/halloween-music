@@ -129,6 +129,15 @@ class Player:
                         return data
             return None
 
+    def skip_next(self) -> None:
+        """Advance to the next playlist entry."""
+        with self._lock:
+            if not self.is_playing:
+                raise RuntimeError("Not playing")
+            result = self._command({"command": ["playlist-next"]})
+            if not result or result.get("error") != "success":
+                raise RuntimeError("Skip failed")
+
     def restart_if_playing(self, audio_device: str | None = None) -> None:
         """Restart playback with the same playlist (e.g. after BT reconnect)."""
         with self._lock:
