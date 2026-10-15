@@ -8,7 +8,7 @@ Develop on macOS; run in production on a Raspberry Pi.
 
 - Plays an `.m3u` playlist on a daily start/stop schedule
 - Bluetooth connect + auto-reconnect while the schedule window is active
-- Web UI: playback status, manual Start/Stop, current track, editable schedule, volume, Bluetooth address + reconnect
+- Web UI: playback status, manual Start/Stop, album and song title (from file tags when available), editable schedule, volume, Bluetooth address + reconnect
 - Schedule and Bluetooth address changes are saved to `config.yaml` and apply without restart
 - **macOS:** mpv is told to use the Bluetooth speaker directly (`--audio-device=coreaudio/…`); connecting via `blueutil` alone does not switch system output
 
@@ -94,7 +94,7 @@ sudo systemctl status halloween-music.service
 
 ## API
 
-- `GET /api/status`
+- `GET /api/status` — includes `title`, `album` (nullable), and `track` (same as `title`, for compatibility)
 - `POST /api/schedule` — `{ "start": "17:00", "stop": "22:00" }`
 - `POST /api/bluetooth` — `{ "device_address": "AA:BB:CC:DD:EE:FF" }`
 - `POST /api/volume` — `{ "volume": 70 }`

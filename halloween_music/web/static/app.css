@@ -126,11 +126,27 @@ body {
   font-weight: 600;
 }
 
+.now-playing {
+  margin-top: 0.75rem;
+}
+
+.album {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+  word-break: break-word;
+}
+
 .track {
-  margin: 0.75rem 0 0;
+  margin: 0.2rem 0 0;
   font-size: 1.25rem;
   font-weight: 600;
   word-break: break-word;
+}
+
+.now-playing .track:first-child {
+  margin-top: 0;
 }
 
 .audio-route {

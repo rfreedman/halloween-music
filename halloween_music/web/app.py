@@ -14,6 +14,17 @@ from halloween_music.scheduler import Scheduler
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 
 
+def _now_playing_fields(player: Player) -> dict:
+    info = player.current_now_playing()
+    if not info:
+        return {"track": None, "title": None, "album": None}
+    return {
+        "track": info["title"],
+        "title": info["title"],
+        "album": info["album"],
+    }
+
+
 def create_app(
     config: ConfigStore,
     player: Player,
@@ -37,7 +48,7 @@ def create_app(
         return jsonify(
             {
                 "playing": player.is_playing,
-                "track": player.current_track(),
+                **_now_playing_fields(player),
                 "start": cfg.schedule.start,
                 "stop": cfg.schedule.stop,
                 "volume": player.get_volume(),
@@ -76,7 +87,7 @@ def create_app(
             {
                 "ok": True,
                 "playing": player.is_playing,
-                "track": player.current_track(),
+                **_now_playing_fields(player),
             }
         )
 

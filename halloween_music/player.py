@@ -11,8 +11,14 @@ import tempfile
 import threading
 import time
 from pathlib import Path
+from typing import TypedDict
 
 logger = logging.getLogger(__name__)
+
+
+class NowPlaying(TypedDict):
+    title: str
+    album: str | None
 
 
 class Player:
@@ -115,19 +121,36 @@ class Player:
                         pass
             return self._volume
 
-    def current_track(self) -> str | None:
+    def current_now_playing(self) -> NowPlaying | None:
         with self._lock:
-            if not self.is_playing:
-                return None
-            for prop in ("media-title", "filename", "path"):
-                result = self._command({"command": ["get_property", prop]})
-                if result and result.get("error") == "success" and result.get("data"):
-                    data = result["data"]
-                    if isinstance(data, str) and data.strip():
-                        if prop == "path":
-                            return Path(data).name
-                        return data
+            return self._current_now_playing_unlocked()
+
+    def current_track(self) -> str | None:
+        info = self.current_now_playing()
+        return info["title"] if info else None
+
+    def _current_now_playing_unlocked(self) -> NowPlaying | None:
+        if not self.is_playing:
             return None
+        album = self._get_property_string("metadata/album")
+        title = self._get_property_string("metadata/title")
+        if not title:
+            for prop in ("media-title", "filename", "path"):
+                raw = self._get_property_string(prop)
+                if raw:
+                    title = Path(raw).name if prop == "path" else raw
+                    break
+        if not title:
+            return None
+        return NowPlaying(title=title, album=album)
+
+    def _get_property_string(self, prop: str) -> str | None:
+        result = self._command({"command": ["get_property", prop]})
+        if result and result.get("error") == "success" and result.get("data"):
+            data = result["data"]
+            if isinstance(data, str) and data.strip():
+                return data.strip()
+        return None
 
     def skip_next(self) -> None:
         """Advance to the next playlist entry."""

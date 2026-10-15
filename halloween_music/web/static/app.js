@@ -2,7 +2,8 @@
   const playState = document.getElementById("play-state");
   const overrideHint = document.getElementById("override-hint");
   const audioRoute = document.getElementById("audio-route");
-  const trackEl = document.getElementById("track");
+  const albumEl = document.getElementById("album");
+  const titleEl = document.getElementById("title");
   const startInput = document.getElementById("start");
   const stopInput = document.getElementById("stop");
   const volumeInput = document.getElementById("volume");
@@ -41,10 +42,28 @@
     return data;
   }
 
+  function applyNowPlaying(data) {
+    const title = data.title || data.track;
+    if (!data.playing) {
+      albumEl.hidden = true;
+      albumEl.textContent = "";
+      titleEl.textContent = "—";
+      return;
+    }
+    if (data.album) {
+      albumEl.hidden = false;
+      albumEl.textContent = data.album;
+    } else {
+      albumEl.hidden = true;
+      albumEl.textContent = "";
+    }
+    titleEl.textContent = title || "Unknown track";
+  }
+
   function applyStatus(data) {
     playState.textContent = data.playing ? "Playing" : "Stopped";
     playState.className = "state " + (data.playing ? "playing" : "stopped");
-    trackEl.textContent = data.track || (data.playing ? "Unknown track" : "—");
+    applyNowPlaying(data);
     btnNext.disabled = !data.playing;
 
     if (data.override === "play") {
@@ -117,7 +136,9 @@
     } catch (err) {
       playState.textContent = "Offline";
       playState.className = "state stopped";
-      trackEl.textContent = err.message;
+      albumEl.hidden = true;
+      albumEl.textContent = "";
+      titleEl.textContent = err.message;
       btnNext.disabled = true;
     }
   }
@@ -202,9 +223,7 @@
   btnNext.addEventListener("click", async () => {
     try {
       const data = await api("/api/skip", { method: "POST", body: "{}" });
-      if (data.track) {
-        trackEl.textContent = data.track;
-      }
+      applyNowPlaying({ ...data, playing: true });
       showFlash("Skipped to next song", true);
       await refresh();
     } catch (err) {
