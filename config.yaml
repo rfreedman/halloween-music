@@ -1,5 +1,5 @@
 schedule:
-  start: '11:41'
+  start: '16:00'
   stop: '22:00'
 playlist: music/playlist.m3u
 bluetooth:
@@ -8,7 +8,7 @@ bluetooth:
   poll_seconds: 15
   reconnect_backoff_seconds: 30
 audio:
-  volume: 70
+  volume: 48
 web:
   host: 0.0.0.0
   port: 8080

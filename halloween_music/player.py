@@ -58,6 +58,7 @@ class Player:
                 "--no-video",
                 "--really-quiet",
                 f"--volume={self._volume}",
+		f"--af=dynaudnorm=f=150:g=15",
                 "--loop-playlist=inf",
                 f"--input-ipc-server={ipc_path}",
             ]
